@@ -1,0 +1,54 @@
+from sqlalchemy import *
+from sqlalchemy import create_engine
+from sqlalchemy import MetaData , Column , Table , ForeignKey
+from sqlalchemy import Integer, String, Float, Date
+
+engine = create_engine('sqlite:///library.db', echo=True)
+metadata = MetaData(bind=engine)
+
+students_table = Table('students', metadata ,
+		       Column('Barcodeno', String, primary_key=True),
+                       Column('Name', String(40)),
+                       Column('Fine', Integer),
+                       )
+Books_table = Table('Books', metadata,
+                    Column('Bookid', String, primary_key=True),
+                    Column('Bookname', String(200)),
+                    Column('Author', String(100)),
+                    Column('Description', String),
+                    )
+BookDetail_table = Table('BookDetail', metadata,
+                    Column('Bookid', String, primary_key=True),
+                    Column('Bookname', String(200)),
+                    Column('Count_available', Integer),
+                    Column('Author', String),
+                    Column('Rating', Float),
+                    Column('Count',Integer),
+                     )
+Bookreturn_table = Table('Bookreturn', metadata,
+                    Column('Barcodeno', String, ForeignKey('students.Barcodeno')),
+                    Column('Bookid', String(40), ForeignKey('Books.Bookid')),
+                    Column('ReturnDate', Date),
+                    Column('ReturnBit', Binary),
+                    )
+ 
+BookGen_table = Table('BookGen', metadata,
+                    Column('Barcodeno', String, primary_key=True),
+                    Column('Bookid1', String, ForeignKey('Books.Bookid')),
+                    Column('Bookid2', String, ForeignKey('Books.Bookid')),
+                    Column('Bookid3', String, ForeignKey('Books.Bookid')),
+                    )
+BookRes_table = Table('BookRes', metadata,
+                    Column('Barcodeno', String, primary_key=True),
+                    Column('Bookid1', String, ForeignKey('Books.Bookid')),
+                    Column('Bookid2', String, ForeignKey('Books.Bookid')),
+                    Column('Bookid3', String, ForeignKey('Books.Bookid')),
+		    Column('Bookid4', String, ForeignKey('Books.Bookid')),
+                    Column('Bookid5', String, ForeignKey('Books.Bookid')),
+                    Column('Bookid6', String, ForeignKey('Books.Bookid')),
+                    )
+
+metadata.create_all() 
+  
+ 
+ 
