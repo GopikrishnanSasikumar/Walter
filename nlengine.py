@@ -1,3 +1,4 @@
+#natural language engine implemented using regex and hardcoding
 import random
 import re
 class nlengine(object):
