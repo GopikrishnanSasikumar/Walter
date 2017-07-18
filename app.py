@@ -1,6 +1,6 @@
 from nlengine import nlengine #for natural language processing
 from flask import Flask,request,jsonify
-from query import queryrunner 
+from query import queryrunner #for database access
 import json
 import sys
 app = Flask(__name__)
