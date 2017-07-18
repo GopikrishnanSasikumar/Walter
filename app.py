@@ -1,30 +1,30 @@
-from nlengine import nlengine
+from nlengine import nlengine #for natural language processing
 from flask import Flask,request,jsonify
 from query import queryrunner 
 import json
 import sys
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '22334455'
 
     
 @app.route('/',methods=['GET','POST'])
 def send_recieve():
-   if request.method=='POST': 
+   if request.method=='POST':
+      #if there is incoming data from front end
       try:
-         data = json.loads(request.data.decode('utf-8'))
+         data = json.loads(request.data.decode('utf-8')) #loading json data recieved
          log(data)
       except (ValueError,TypeError,KeyError):
          print("Error caught")
          return json.dumps({'label': 'error'})
       
       if data['label']=="text":
+         #for voice commands
          k=nlengine(data["request"])
-         
          message=k.getResult()
          k=message["bookread"]
          
          if k=="y":
-            
+            #if need database access
             message['barcode']=data['barcode']
             k=queryrunner(message)
             message=k.getoutput()
@@ -34,6 +34,7 @@ def send_recieve():
          log(message)
          return json.dumps(message)
       else:
+         #button clicks
          k=queryrunner(data)
          message=k.getoutput()
          message=json.dumps(message)
